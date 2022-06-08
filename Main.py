@@ -4,9 +4,7 @@ from discord.ext import commands
 import requests
 import threading
 import os
-import time
 import json
-import base64
 roles = None
 members = None
 channels = None
